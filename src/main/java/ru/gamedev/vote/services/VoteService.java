@@ -144,17 +144,17 @@ public class VoteService {
     private VotingDTO collectResult(PageDTO page) {
         VotingDTO dto = new VotingDTO();
         List<VoteDTO> votes = page.getMessageDTOList();
-        Map<VoteChoice, VoteChoice> map = dto.getChoices();
+        Map<String, VoteChoice> map = dto.getChoices();
         for (VoteDTO vote : votes) {
             if (vote.getVote() == null) {
                 continue;
             }
             VoteChoice choice = new VoteChoice();
-            choice.setChoice(vote.getVote());
-            if (map.containsKey(choice)) {
-                choice = map.get(choice);
+            if (map.containsKey(vote.getVote())) {
+                choice = map.get(vote.getVote());
             } else {
-                map.put(choice, choice);
+                choice.setChoice(vote.getVote());
+                map.put(vote.getVote(), choice);
             }
 
             if (!choice.getVoters().contains(vote)) {
@@ -167,19 +167,20 @@ public class VoteService {
     }
 
     private VotingDTO aggregateData(VotingDTO dest, VotingDTO source) {
-        Map<VoteChoice, VoteChoice> destMap = dest.getChoices();
-        Map<VoteChoice, VoteChoice> sourceMap = source.getChoices();
-        for (VoteChoice sourceChoice : sourceMap.keySet()) {
+        Map<String, VoteChoice> destMap = dest.getChoices();
+        Map<String, VoteChoice> sourceMap = source.getChoices();
+        for (String sourceChoice : sourceMap.keySet()) {
             VoteChoice destChoice;
             if (destMap.containsKey(sourceChoice)) {
                 destChoice = destMap.get(sourceChoice);
             } else {
                 destChoice = new VoteChoice();
-                destChoice.setChoice(sourceChoice.getChoice());
-                destMap.put(destChoice, destChoice);
+                destChoice.setChoice(sourceChoice);
+                destMap.put(destChoice.getChoice(), destChoice);
             }
             Set<VoteDTO> destVoters = destChoice.getVoters();
-            for (VoteDTO voteDTO : sourceChoice.getVoters()) {
+            Set<VoteDTO> sourceVoters = sourceMap.get(sourceChoice).getVoters();
+            for (VoteDTO voteDTO : sourceVoters) {
                 if (!destVoters.contains(voteDTO)) {
                     destVoters.add(voteDTO);
                     destChoice.addCount(1l);

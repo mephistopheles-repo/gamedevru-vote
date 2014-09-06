@@ -61,9 +61,10 @@ public class MainController {
         if (dto != null) {
             int fullCount = 0;
             List<VoteChoice> list = new ArrayList<VoteChoice>();
-            for (VoteChoice voteChoice : dto.getChoices().keySet()) {
-                list.add(voteChoice);
-                fullCount += voteChoice.getCount();
+            for (String voteChoice : dto.getChoices().keySet()) {
+                VoteChoice innerChoice = dto.getChoices().get(voteChoice);
+                list.add(innerChoice);
+                fullCount += innerChoice.getCount();
             }
 
             Collections.sort(list, new Comparator<VoteChoice>() {

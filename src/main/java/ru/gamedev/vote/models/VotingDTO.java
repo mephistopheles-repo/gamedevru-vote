@@ -12,7 +12,7 @@ import java.util.Map;
  */
 public class VotingDTO {
     private Long voteId;
-    private Map<VoteChoice, VoteChoice> choices = new HashMap<VoteChoice, VoteChoice>();
+    private Map<String, VoteChoice> choices = new HashMap<String, VoteChoice>();
     private Date lastUpdated;
 
     public Long getVoteId() {
@@ -23,11 +23,11 @@ public class VotingDTO {
         this.voteId = voteId;
     }
 
-    public Map<VoteChoice, VoteChoice> getChoices() {
+    public Map<String, VoteChoice> getChoices() {
         return choices;
     }
 
-    public void setChoices(Map<VoteChoice, VoteChoice> choices) {
+    public void setChoices(Map<String, VoteChoice> choices) {
         this.choices = choices;
     }
 
