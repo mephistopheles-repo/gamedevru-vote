@@ -26,11 +26,11 @@ import java.util.concurrent.*;
 @Service
 public class VoteService {
     private static final Long updateInterval = 10000L;
+    private static final long CLEAR_INTERVAL = 1000 * 60 * 10;
     @Autowired
     protected CrawlerService crawlerService;
     @Autowired
     protected ParserService parserService;
-
     private ScheduledExecutorService executorService;
     private ConcurrentMap<Long, VotingDTO> votingDTOMap;
     private ConcurrentMap<Long, Object> runningUpdates;
@@ -41,8 +41,6 @@ public class VoteService {
         votingDTOMap = new ConcurrentHashMap<Long, VotingDTO>();
         runningUpdates = new ConcurrentHashMap<Long, Object>();
     }
-
-    private static final long CLEAR_INTERVAL = 1000 * 60 * 10;
 
     @Scheduled(fixedDelay = CLEAR_INTERVAL)
     private void clearCache() {

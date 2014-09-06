@@ -11,7 +11,6 @@ import ru.gamedev.vote.models.VoteDTO;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
 
 /**
  * Created with IntelliJ IDEA.
@@ -21,6 +20,7 @@ import java.util.regex.Matcher;
  */
 @Service
 public class ParserService {
+    public static final String ID_MARK = "id=";
     private static final String MESSAGE_SELECTOR = "div.mes";
     private static final String MESSAGE_HEADER_SELECTOR = "table.mes";
     private static final String AUTHOR_ELEMENT_SELECTOR = "th a";
@@ -30,7 +30,6 @@ public class ParserService {
     private static final String PAGINATION_SELECTOR = "#main_body p a";
     private static final String NEXT_PAGE_BUTTON_TEXT = "Следующая";
     private static final String VOTE_MARK = "@vote";
-    public static final String ID_MARK = "id=";
 
     public PageDTO parse(Document doc) {
         Elements messagesOnPage = doc.select(MESSAGE_SELECTOR);
@@ -97,15 +96,15 @@ public class ParserService {
 
         int startOffset = start + ID_MARK.length();
         int end = url.indexOf("&", startOffset);
-        if (end == -1){
+        if (end == -1) {
             end = url.length();
         }
 
-        if (startOffset == end){
+        if (startOffset == end) {
             return 0l;
         }
 
-        return Long.valueOf(url.substring(startOffset,end).trim());
+        return Long.valueOf(url.substring(startOffset, end).trim());
     }
 
 

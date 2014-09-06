@@ -21,12 +21,14 @@ public enum AuthorLevel {
     BANNED("ЗАБАНЕН"),
     REMOVED("УДАЛЕН");
     private static Map<String, AuthorLevel> map = new HashMap<String, AuthorLevel>();
+
     static {
         AuthorLevel[] authorLevels = AuthorLevel.values();
         for (AuthorLevel authorLevel : authorLevels) {
             map.put(authorLevel.getTextName(), authorLevel);
         }
     }
+
     private String textName;
 
     private AuthorLevel(String textName) {
