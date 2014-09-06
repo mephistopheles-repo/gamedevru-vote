@@ -13,7 +13,7 @@
 <script>
     (function () {
         var parentHref = (window.location != window.parent.location) ? document.referrer : document.location;
-        window.location.href = "/vote-page?url=" + parentHref;
+        window.location.href = "/vote-page?url=" + encodeURIComponent(parentHref);
     })()
 </script>
 

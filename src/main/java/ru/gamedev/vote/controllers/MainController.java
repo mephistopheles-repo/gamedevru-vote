@@ -16,6 +16,7 @@ import ru.gamedev.vote.services.VoteService;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.net.URLDecoder;
 
 /**
  * Created with IntelliJ IDEA.
@@ -40,6 +41,8 @@ public class MainController {
     @RequestMapping(value = "/vote-page", method = RequestMethod.GET)
     public ModelAndView getVote(@RequestParam String url,
                                 @RequestParam(required = false, defaultValue = "false") Boolean skipCheck) throws IOException, PermissionException {
+
+        url = URLDecoder.decode(url, "UTF-8");
 
         if (!skipCheck && !url.startsWith(CrawlerService.URL)) {
             throw new PermissionException();
