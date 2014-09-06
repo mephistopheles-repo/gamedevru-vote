@@ -9,8 +9,13 @@
 <html>
 <head>
     <title></title>
-</head>
 <body>
-    THIS IS INDEX PAGE
+<script>
+    (function () {
+        var parentHref = (window.location != window.parent.location) ? document.referrer : document.location;
+        window.location.href = "/vote-page?url=" + parentHref;
+    })()
+</script>
+
 </body>
 </html>

@@ -8,7 +8,7 @@ package ru.gamedev.vote.models;
  */
 public class VoteDTO {
     private String authorName;
-    private long authorId;
+    private Long authorId;
     private AuthorLevel authorLevel;
     private String vote;
 
@@ -20,11 +20,11 @@ public class VoteDTO {
         this.authorName = authorName;
     }
 
-    public long getAuthorId() {
+    public Long getAuthorId() {
         return authorId;
     }
 
-    public void setAuthorId(long authorId) {
+    public void setAuthorId(Long authorId) {
         this.authorId = authorId;
     }
 
@@ -42,5 +42,10 @@ public class VoteDTO {
 
     public void setVote(String vote) {
         this.vote = vote;
+    }
+
+    @Override
+    public int hashCode() {
+        return authorId.hashCode();
     }
 }

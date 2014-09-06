@@ -1,10 +1,17 @@
 package ru.gamedev.vote.services;
 
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.springframework.stereotype.Service;
+import ru.gamedev.vote.exeptions.AuthorLevelUnknownException;
+import ru.gamedev.vote.models.AuthorLevel;
+import ru.gamedev.vote.models.PageDTO;
+import ru.gamedev.vote.models.VoteDTO;
 
-import javax.annotation.PostConstruct;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * Created with IntelliJ IDEA.
@@ -14,16 +21,101 @@ import java.util.regex.Pattern;
  */
 @Service
 public class ParserService {
-    private static  final String MESSAGE_SELECTOR = "div.mes";
-    private static  final String MESSAGE_HEADER_SELECTOR = MESSAGE_SELECTOR + " table.mes";
-    private static  final String AUTHOR_ELEMENT_SELECTOR = MESSAGE_HEADER_SELECTOR + " th a";
-    private static  final String AUTHOR_LEVEL_SELECTOR = MESSAGE_HEADER_SELECTOR + " .level";
-    private static  final String MESSAGE_BODY_SELECTOR = MESSAGE_SELECTOR + " .block";
-    private Pattern votePattern;
+    private static final String MESSAGE_SELECTOR = "div.mes";
+    private static final String MESSAGE_HEADER_SELECTOR = "table.mes";
+    private static final String AUTHOR_ELEMENT_SELECTOR = "th a";
+    private static final String AUTHOR_LEVEL_SELECTOR = ".level";
+    private static final String MESSAGE_BODY_SELECTOR = ".block";
+    private static final String ZERO_POST_SELECTOR = "#m0";
+    private static final String PAGINATION_SELECTOR = "#main_body p a";
+    private static final String NEXT_PAGE_BUTTON_TEXT = "Следующая";
+    private static final String VOTE_MARK = "@vote";
+    public static final String ID_MARK = "id=";
 
-    @PostConstruct
-    private void postConstruct(){
-        votePattern = Pattern.compile("\\@vote (.*)");
+    public PageDTO parse(Document doc) {
+        Elements messagesOnPage = doc.select(MESSAGE_SELECTOR);
+        PageDTO page = new PageDTO();
+        page.setIsFirstPage(!messagesOnPage.select(ZERO_POST_SELECTOR).isEmpty());
+        page.setIsLastPage(isLastPage(doc));
+
+        List<VoteDTO> messageDTOList = new ArrayList<VoteDTO>(messagesOnPage.size());
+        for (Element element : messagesOnPage) {
+            Element messageHeader = element.select(MESSAGE_HEADER_SELECTOR).first();
+            VoteDTO dto = new VoteDTO();
+            Element authorEl = messageHeader.select(AUTHOR_ELEMENT_SELECTOR).first();
+            dto.setAuthorId(parseId(authorEl.attr("href")));
+            dto.setAuthorName(authorEl.text());
+            Element authorLevel = messageHeader.select(AUTHOR_LEVEL_SELECTOR).first();
+            dto.setAuthorLevel(parseAuthorLevel(authorLevel.text()));
+            Element body = element.select(MESSAGE_BODY_SELECTOR).first();
+            dto.setVote(parseVote(body.text()));
+            messageDTOList.add(dto);
+        }
+
+        messagesOnPage.clear();
+
+        page.setMessageDTOList(messageDTOList);
+        return page;
     }
 
+    private String parseVote(String body) {
+        int start = body.indexOf(VOTE_MARK);
+        if (start == -1) {
+            return null;
+        }
+        int offset = start + VOTE_MARK.length();
+        if (body.length() < offset) {
+            return null;
+        }
+        int end = body.indexOf("\n", offset);
+        String returnString;
+        if (end == -1) {
+            returnString = body.substring(offset).trim();
+        } else {
+            returnString = body.substring(offset, end).trim();
+        }
+
+        if (returnString.length() > 48) {
+            returnString = returnString.substring(0, 48);
+        }
+        return returnString;
+    }
+
+    private AuthorLevel parseAuthorLevel(String level) {
+        try {
+            return AuthorLevel.fromString(level);
+        } catch (AuthorLevelUnknownException e) {
+            return AuthorLevel.REMOVED;
+        }
+    }
+
+    public Long parseId(String url) {
+        int start = url.indexOf(ID_MARK);
+        if (start == -1) {
+            return 0l;
+        }
+
+        int startOffset = start + ID_MARK.length();
+        int end = url.indexOf("&", startOffset);
+        if (end == -1){
+            end = url.length();
+        }
+
+        if (startOffset == end){
+            return 0l;
+        }
+
+        return Long.valueOf(url.substring(startOffset,end).trim());
+    }
+
+
+    private boolean isLastPage(Document doc) {
+        Elements elements = doc.select(PAGINATION_SELECTOR);
+        for (Element element : elements) {
+            if (element.text().equals(NEXT_PAGE_BUTTON_TEXT)) {
+                return false;
+            }
+        }
+        return true;
+    }
 }

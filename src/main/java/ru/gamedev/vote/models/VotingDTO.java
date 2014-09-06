@@ -1,7 +1,8 @@
 package ru.gamedev.vote.models;
 
 import java.util.Date;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created with IntelliJ IDEA.
@@ -11,7 +12,7 @@ import java.util.List;
  */
 public class VotingDTO {
     private Long voteId;
-    private List<VoteChoice> choices;
+    private Map<VoteChoice, VoteChoice> choices = new HashMap<VoteChoice, VoteChoice>();
     private Date lastUpdated;
 
     public Long getVoteId() {
@@ -22,11 +23,11 @@ public class VotingDTO {
         this.voteId = voteId;
     }
 
-    public List<VoteChoice> getChoices() {
+    public Map<VoteChoice, VoteChoice> getChoices() {
         return choices;
     }
 
-    public void setChoices(List<VoteChoice> choices) {
+    public void setChoices(Map<VoteChoice, VoteChoice> choices) {
         this.choices = choices;
     }
 

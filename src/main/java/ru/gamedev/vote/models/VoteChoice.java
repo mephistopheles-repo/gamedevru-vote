@@ -1,5 +1,8 @@
 package ru.gamedev.vote.models;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * Created with IntelliJ IDEA.
  * Date: 05.09.2014
@@ -8,7 +11,8 @@ package ru.gamedev.vote.models;
  */
 public class VoteChoice {
     private String choice;
-    private Long count;
+    private Long count = 0l;
+    private Set<VoteDTO> voters = new HashSet<VoteDTO>();
 
     public String getChoice() {
         return choice;
@@ -24,6 +28,18 @@ public class VoteChoice {
 
     public void setCount(Long count) {
         this.count = count;
+    }
+
+    public Set<VoteDTO> getVoters() {
+        return voters;
+    }
+
+    public void setVoters(Set<VoteDTO> voters) {
+        this.voters = voters;
+    }
+
+    public void addCount(Long val) {
+        count += val;
     }
 
     @Override
