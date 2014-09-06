@@ -25,8 +25,8 @@ import java.util.concurrent.*;
  */
 @Service
 public class VoteService {
-    private static final long updateInterval = 1000 * 60 * 2;
-    private static final long CLEAR_INTERVAL = 1000 * 60 * 10;
+    private static final long UPDATE_INTERVAL = 1000 * 60 * 2;
+    private static final long CLEAR_INTERVAL = 1000 * 60 * 15;
 
     @Autowired
     protected CrawlerService crawlerService;
@@ -65,7 +65,7 @@ public class VoteService {
         }
 
         Long current = new Date().getTime();
-        if (lastUpdated + updateInterval < current) {
+        if (lastUpdated + UPDATE_INTERVAL < current) {
 
             if (!runningUpdates.containsKey(id)) {
                 synchronized (runningUpdates) {

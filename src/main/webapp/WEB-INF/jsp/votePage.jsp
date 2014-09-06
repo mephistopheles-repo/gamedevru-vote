@@ -12,8 +12,9 @@
     <title></title>
     <style>
         .overlay {
-            display:none;
+            display: none;
         }
+
         .vote-container {
             width: 100%;
             height: 20px;
@@ -49,10 +50,18 @@
 </head>
 <body style="width: 100%;height: 100%">
 <div class="main">
-    <c:if test="${voting != null}">
+    <c:if test="${votingLength > 0}">
+        <c:forEach items="${voting}" var="choise">
+            <div class="vote-container">
+                <span class="pull-right mrg-r-5">${choise.count}</span>
 
+                <div class="vote" style="width: ${choise.count/(fullCount*0.01)}%">
+                    <span class="inner-text">${choise.choice}</span>
+                </div>
+            </div>
+        </c:forEach>
     </c:if>
-    <c:if test="${voting == null}">
+    <c:if test="${votingLength == 0}">
         <%@include file="includes/loading-overlay.jsp" %>
     </c:if>
 </div>

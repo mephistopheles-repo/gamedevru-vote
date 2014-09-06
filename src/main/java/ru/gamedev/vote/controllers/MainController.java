@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import ru.gamedev.vote.exeptions.PermissionException;
+import ru.gamedev.vote.models.VoteChoice;
 import ru.gamedev.vote.models.VotingDTO;
 import ru.gamedev.vote.services.CrawlerService;
 import ru.gamedev.vote.services.ParserService;
@@ -17,6 +18,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.net.URLDecoder;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -53,7 +57,45 @@ public class MainController {
         ModelAndView mav = new ModelAndView("votePage");
 
         VotingDTO dto = voteService.getVoting(threadId);
-        mav.addObject("voting", null);
+        if (dto != null) {
+            int fullCount = 0;
+            List<VoteChoice> list = new ArrayList<VoteChoice>();
+            for (VoteChoice voteChoice : dto.getChoices().keySet()) {
+                list.add(voteChoice);
+                fullCount += voteChoice.getCount();
+            }
+
+            list.sort(new Comparator<VoteChoice>() {
+                @Override
+                public int compare(VoteChoice o1, VoteChoice o2) {
+                    return o1.getCount().compareTo(o2.getCount());
+                }
+            });
+
+
+            if (list.size() > 5) {
+                list = list.subList(0, 4);
+            }
+
+            Long viewCount = 0l;
+            for (VoteChoice voteChoice : list) {
+                viewCount += voteChoice.getCount();
+            }
+            Long otherCount = fullCount - viewCount;
+            if (otherCount != 0) {
+                VoteChoice others = new VoteChoice();
+                others.setChoice("Другие варианты");
+                others.setCount(otherCount);
+                list.add(others);
+            }
+
+            mav.addObject("fullCount", fullCount);
+            mav.addObject("voting", list);
+            mav.addObject("votingLength", list.size());
+        } else {
+            mav.addObject("votingLength", 0);
+        }
+
 
         return mav;
     }
