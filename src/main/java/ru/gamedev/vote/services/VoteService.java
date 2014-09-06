@@ -25,12 +25,15 @@ import java.util.concurrent.*;
  */
 @Service
 public class VoteService {
-    private static final Long updateInterval = 10000L;
+    private static final long updateInterval = 1000 * 60 * 2;
     private static final long CLEAR_INTERVAL = 1000 * 60 * 10;
+
     @Autowired
     protected CrawlerService crawlerService;
+
     @Autowired
     protected ParserService parserService;
+
     private ScheduledExecutorService executorService;
     private ConcurrentMap<Long, VotingDTO> votingDTOMap;
     private ConcurrentMap<Long, Object> runningUpdates;
