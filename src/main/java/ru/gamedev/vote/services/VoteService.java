@@ -100,22 +100,26 @@ public class VoteService {
                             return;
                         }
                         PageDTO pageDTO = parserService.parse(doc);
+
                         VotingDTO votingDTO = collectResult(pageDTO);
-                        Long pageCounter = 2l;
-                        while (true) {
-                            try {
-                                doc = crawlerService.getPage(id, pageCounter);
-                            } catch (IOException ignored) {
-                                break;
-                            }
 
-                            pageDTO = parserService.parse(doc);
+                        if (!pageDTO.getIsLastPage()){
+                            Long pageCounter = 2l;
+                            while (true) {
+                                try {
+                                    doc = crawlerService.getPage(id, pageCounter);
+                                } catch (IOException ignored) {
+                                    break;
+                                }
 
-                            VotingDTO tempVotingDTO = collectResult(pageDTO);
-                            aggregateData(votingDTO, tempVotingDTO);
-                            pageCounter++;
-                            if (pageDTO.getIsLastPage() || pageCounter > 1000) {
-                                break;
+                                pageDTO = parserService.parse(doc);
+
+                                VotingDTO tempVotingDTO = collectResult(pageDTO);
+                                aggregateData(votingDTO, tempVotingDTO);
+                                pageCounter++;
+                                if (pageDTO.getIsLastPage() || pageCounter > 1000) {
+                                    break;
+                                }
                             }
                         }
 
