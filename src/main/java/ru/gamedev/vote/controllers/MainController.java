@@ -75,7 +75,7 @@ public class MainController {
             });
 
             if (list.size() > 5) {
-                list = list.subList(0, 4);
+                list = list.subList(0, 5);
             }
 
             Long viewCount = 0l;
