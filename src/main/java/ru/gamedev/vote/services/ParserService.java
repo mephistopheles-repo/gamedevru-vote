@@ -52,15 +52,17 @@ public class ParserService {
             Element body = element.select(MESSAGE_BODY_SELECTOR).first();
             body.select(QUOTE_SELECTOR).remove();
             Elements paragraphsElements = body.select(POTENCIAL_VOTE_ELEMENT);
-
-            for (Element paragraphsElement : paragraphsElements) {
-                String vote = parseVote(paragraphsElement.text());
-                if (vote != null){
-                    dto.setVote(vote);
-                    break;
+            if (paragraphsElements.size() == 0) {
+                dto.setVote(parseVote(body.text()));
+            } else {
+                for (Element paragraphsElement : paragraphsElements) {
+                    String vote = parseVote(paragraphsElement.text());
+                    if (vote != null) {
+                        dto.setVote(vote);
+                        break;
+                    }
                 }
             }
-
             messageDTOList.add(dto);
         }
 
