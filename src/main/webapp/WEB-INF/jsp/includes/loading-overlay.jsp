@@ -22,7 +22,7 @@
     Данные обновляются...
 </div>
 <div class="vote-container">
-    <span class="pull-right mrg-r-5">100500</span>
+    <span class="pull-right mrg-r-5">146%</span>
 
     <div class="vote" style="width: 50%">
         <span class="inner-text">Единая Россия</span>
@@ -30,7 +30,7 @@
 </div>
 
 <div class="vote-container">
-    <span class="pull-right mrg-r-5">100500</span>
+    <span class="pull-right mrg-r-5">146%</span>
 
     <div class="vote" style="width: 30%">
         <span class="inner-text">Единая Россия</span>
@@ -38,7 +38,7 @@
 </div>
 
 <div class="vote-container">
-    <span class="pull-right mrg-r-5">100500</span>
+    <span class="pull-right mrg-r-5">146%</span>
 
     <div class="vote" style="width: 20%">
         <span class="inner-text">Единая Россия</span>
@@ -46,7 +46,7 @@
 </div>
 
 <div class="vote-container">
-    <span class="pull-right mrg-r-5">100500</span>
+    <span class="pull-right mrg-r-5">146%</span>
 
     <div class="vote" style="width: 10%">
         <span class="inner-text">Единая Россия</span>
@@ -54,7 +54,7 @@
 </div>
 
 <div class="vote-container">
-    <span class="pull-right mrg-r-5">100500</span>
+    <span class="pull-right mrg-r-5">146%</span>
 
     <div class="vote" style="width: 5%">
         <span class="inner-text">Единая Россия</span>
