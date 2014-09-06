@@ -56,7 +56,7 @@
                 <span class="pull-right mrg-r-5">${choise.count}</span>
 
                 <div class="vote" style="width: ${choise.count/(fullCount*0.01)}%">
-                    <span class="inner-text">${choise.choice}</span>
+                    <span class="inner-text"><c:out value="${choise.choice}"/></span>
                 </div>
             </div>
         </c:forEach>
