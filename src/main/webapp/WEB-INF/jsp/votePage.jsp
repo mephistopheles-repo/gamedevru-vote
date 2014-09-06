@@ -11,7 +11,7 @@
 <head>
     <title></title>
     <style>
-        .overlay {
+        .overlays {
             display: none;
         }
 
