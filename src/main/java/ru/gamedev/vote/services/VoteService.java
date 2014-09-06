@@ -1,6 +1,5 @@
 package ru.gamedev.vote.services;
 
-import com.sun.istack.internal.Nullable;
 import org.jsoup.nodes.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -56,7 +55,6 @@ public class VoteService {
         }
     }
 
-    @Nullable
     public VotingDTO getVoting(final Long id) {
         VotingDTO dto = null;
         Long lastUpdated = 0l;
