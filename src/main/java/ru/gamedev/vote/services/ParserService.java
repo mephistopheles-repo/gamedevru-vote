@@ -21,7 +21,7 @@ import java.util.List;
 @Service
 public class ParserService {
     public static final String ID_MARK = "id=";
-    private static final String MESSAGE_SELECTOR = "div.mes";
+    private static final String MESSAGE_SELECTOR = "#main_body > div.mes";
     private static final String MESSAGE_HEADER_SELECTOR = "table.mes";
     private static final String AUTHOR_ELEMENT_SELECTOR = "th a";
     private static final String AUTHOR_LEVEL_SELECTOR = ".level";
@@ -92,6 +92,11 @@ public class ParserService {
         if (returnString.length() > 48) {
             returnString = returnString.substring(0, 48);
         }
+
+        if (returnString.length() < 1){
+            return null;
+        }
+
         return returnString;
     }
 

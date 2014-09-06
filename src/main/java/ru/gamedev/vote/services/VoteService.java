@@ -103,7 +103,7 @@ public class VoteService {
 
                         VotingDTO votingDTO = collectResult(pageDTO);
 
-                        if (!pageDTO.getIsLastPage()){
+                        if (!pageDTO.getIsLastPage()) {
                             Long pageCounter = 2l;
                             while (true) {
                                 try {
@@ -130,6 +130,8 @@ public class VoteService {
                         } else {
                             votingDTOMap.put(id, votingDTO);
                         }
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
                     } finally {
                         runningUpdates.remove(id);
                     }
