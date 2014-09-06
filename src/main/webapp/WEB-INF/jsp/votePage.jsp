@@ -10,7 +10,42 @@
 <html>
 <head>
     <title></title>
-    <link href="/css/style.css" rel="stylesheet" type="text/css">
+    <style>
+        .overlay {
+            display:none;
+        }
+        .vote-container {
+            width: 100%;
+            height: 20px;
+            background-color: rgb(213, 213, 213);
+            margin: 1px 1px 1px 1px;
+        }
+
+        .vote {
+            height: 100%;
+            background-color: rgb(35, 151, 35);;
+        }
+
+        .main {
+            width: 99%;
+            height: 105px;
+            margin-right: 1px;
+        }
+
+        .inner-text {
+            margin-left: 5px;
+            color: ghostwhite;
+            position: absolute;
+        }
+
+        .mrg-r-5 {
+            margin-right: 5px;
+        }
+
+        .pull-right {
+            float: right;
+        }
+    </style>
 </head>
 <body style="width: 100%;height: 100%">
 <div class="main">
