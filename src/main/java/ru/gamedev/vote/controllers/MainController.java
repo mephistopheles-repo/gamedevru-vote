@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.net.URLDecoder;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -65,13 +66,12 @@ public class MainController {
                 fullCount += voteChoice.getCount();
             }
 
-            list.sort(new Comparator<VoteChoice>() {
+            Collections.sort(list, new Comparator<VoteChoice>() {
                 @Override
                 public int compare(VoteChoice o1, VoteChoice o2) {
                     return o1.getCount().compareTo(o2.getCount());
                 }
             });
-
 
             if (list.size() > 5) {
                 list = list.subList(0, 4);
