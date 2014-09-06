@@ -25,7 +25,8 @@ import java.util.concurrent.*;
  */
 @Service
 public class VoteService {
-    private static final long UPDATE_INTERVAL = 1000 * 60 * 2;
+    //private static final long UPDATE_INTERVAL = 1000 * 60 * 2;
+    private static final long UPDATE_INTERVAL = 0;
     private static final long CLEAR_INTERVAL = 1000 * 60 * 15;
 
     @Autowired
@@ -148,6 +149,8 @@ public class VoteService {
             choice.setChoice(vote.getVote());
             if (map.containsKey(choice)) {
                 choice = map.get(choice);
+            } else {
+                map.put(choice, choice);
             }
 
             if (!choice.getVoters().contains(vote)) {

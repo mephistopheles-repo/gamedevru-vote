@@ -29,6 +29,8 @@ public class ParserService {
     private static final String ZERO_POST_SELECTOR = "#m0";
     private static final String PAGINATION_SELECTOR = "#main_body p a";
     private static final String NEXT_PAGE_BUTTON_TEXT = "Следующая";
+    private static final String QUOTE_SELECTOR = ".q";
+    private static final String POTENCIAL_VOTE_ELEMENT = "p";
     private static final String VOTE_MARK = "@vote";
 
     public PageDTO parse(Document doc) {
@@ -46,8 +48,19 @@ public class ParserService {
             dto.setAuthorName(authorEl.text());
             Element authorLevel = messageHeader.select(AUTHOR_LEVEL_SELECTOR).first();
             dto.setAuthorLevel(parseAuthorLevel(authorLevel.text()));
+
             Element body = element.select(MESSAGE_BODY_SELECTOR).first();
-            dto.setVote(parseVote(body.text()));
+            body.select(QUOTE_SELECTOR).remove();
+            Elements paragraphsElements = body.select(POTENCIAL_VOTE_ELEMENT);
+
+            for (Element paragraphsElement : paragraphsElements) {
+                String vote = parseVote(paragraphsElement.text());
+                if (vote != null){
+                    dto.setVote(vote);
+                    break;
+                }
+            }
+
             messageDTOList.add(dto);
         }
 

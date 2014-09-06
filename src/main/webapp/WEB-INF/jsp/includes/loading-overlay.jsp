@@ -14,7 +14,7 @@
     (function () {
         setTimeout(function () {
             window.location.href = window.location.href;
-        }, 1000 * 10);
+        }, 1000 * 25);
     })();
 </script>
 <div class="overlay"
