@@ -70,7 +70,7 @@ public class MainController {
             Collections.sort(list, new Comparator<VoteChoice>() {
                 @Override
                 public int compare(VoteChoice o1, VoteChoice o2) {
-                    return o1.getCount().compareTo(o2.getCount());
+                    return o2.getCount().compareTo(o1.getCount());
                 }
             });
 
