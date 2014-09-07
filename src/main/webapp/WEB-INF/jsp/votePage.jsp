@@ -74,6 +74,14 @@
             el = document.getElementById("js-how-to-vote");
             el.style.display = "block";
         }
+
+        function pressHowToMakeButton(){
+            var el = document.getElementById("js-vote-data");
+            el.style.display = "none";
+
+            el = document.getElementById("js-how-to-make");
+            el.style.display = "block";
+        }
     </script>
 </head>
 <body style="width: 100%;height: 100%">
@@ -94,7 +102,7 @@
             <%@include file="includes/loading-overlay.jsp" %>
         </c:if>
         <a href="javascript:void(0);" onclick="pressHowToVoteButton();" target="_blank">Как голосовать?</a>
-        <a href="javascript:void(0);" class="pull-right mrg-r-5" target="_blank">Как создать?</a>
+        <a href="javascript:void(0);" onclick="pressHowToMakeButton();" class="pull-right mrg-r-5" target="_blank">Как создать?</a>
     </div>
     <div id="js-how-to-vote" style="display: none">
         <span>
@@ -109,8 +117,7 @@
 
     <div id="js-how-to-make" style="display: none">
         <span>
-            <pre>Тут будет текст
-            </pre>
+            Пусто
         </span>
         <a href="javascript:void(0);" onclick="pressBackButton();" style="position: relative;bottom: 0;left: 0;"> Назад</a>
     </div>
