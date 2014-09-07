@@ -34,7 +34,8 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>1.6</maven.compiler.source>
 		<maven.compiler.target>1.6</maven.compiler.target>
-	</properties>
+        <jetty.version>8.1.14.v20131031</jetty.version>
+    </properties>
 	<dependencies>
 		<dependency>
 			<groupId>org.postgresql</groupId>
@@ -131,29 +132,34 @@
 
                     <plugin>
                         <groupId>org.mortbay.jetty</groupId>
-                        <artifactId>maven-jetty-plugin</artifactId>
-                        <version>6.1.26</version>
+                        <artifactId>jetty-maven-plugin</artifactId>
+                        <version>${jetty.version}</version>
                         <configuration>
                             <scanIntervalSeconds>10</scanIntervalSeconds>
-                            <contextPath>/</contextPath>
                             <connectors>
-                                <connector implementation="org.mortbay.jetty.nio.SelectChannelConnector">
-                                    <port>8182</port>
+                                <connector implementation="org.eclipse.jetty.server.bio.SocketConnector">
+                                <port>8182</port>
                                     <maxIdleTime>60000</maxIdleTime>
                                 </connector>
                             </connectors>
-
                             <systemProperties>
                                 <systemProperty>
-                                    <name>JETTY_PORT</name>
-                                    <value>8182</value>
-                                </systemProperty>
-                                <systemProperty>
-                                    <name>appid</name>
-                                    <value>gamedev-voter</value>
+                                    <name>VERBOSE</name>
                                 </systemProperty>
                             </systemProperties>
                         </configuration>
+                        <dependencies>
+                            <dependency>
+                                <groupId>org.slf4j</groupId>
+                                <artifactId>slf4j-api</artifactId>
+                                <version>1.6.1</version>
+                            </dependency>
+                            <dependency>
+                                <groupId>org.slf4j</groupId>
+                                <artifactId>slf4j-simple</artifactId>
+                                <version>1.6.1</version>
+                            </dependency>
+                        </dependencies>
                     </plugin>
                 </plugins>
             </build>

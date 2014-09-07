@@ -2,21 +2,20 @@ package ru.gamedev.vote.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import ru.gamedev.vote.exeptions.PermissionException;
 import ru.gamedev.vote.models.ColorDTO;
 import ru.gamedev.vote.models.VoteChoice;
 import ru.gamedev.vote.models.VotingDTO;
 import ru.gamedev.vote.services.CrawlerService;
+import ru.gamedev.vote.services.ImageService;
 import ru.gamedev.vote.services.ParserService;
 import ru.gamedev.vote.services.VoteService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.net.URLDecoder;
 import java.util.ArrayList;
@@ -39,10 +38,45 @@ public class MainController {
     @Autowired
     protected ParserService parserService;
 
+    @Autowired
+    protected ImageService imageService;
+
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public ModelAndView getMainPage() {
         return new ModelAndView("indexPage");
     }
+
+    @RequestMapping(value = "/image/", method = RequestMethod.GET)
+    @ResponseBody
+    public void getVoteImage(@RequestHeader("Referer") String url,
+                             @RequestParam(defaultValue = "5") String maxSizeStr,
+                             @RequestParam(required = false, defaultValue = "F8F8FF") String text,
+                             @RequestParam(required = false, defaultValue = "C7C7C7") String back,
+                             @RequestParam(required = false, defaultValue = "239723") String complete,
+                             HttpServletRequest request,
+                             HttpServletResponse response) throws IOException {
+
+        int maxSize = 5;
+        try {
+            maxSize = Integer.parseInt(maxSizeStr);
+        } catch (Exception ignored) {
+        }
+
+        url = URLDecoder.decode(url, "UTF-8");
+        Long threadId = parserService.parseId(url);
+
+        response.setStatus(HttpServletResponse.SC_OK);
+
+        response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+        response.setHeader("Pragma", "no-cache");
+        response.setHeader("Content-Type", "image/png");
+        response.setDateHeader("Expires", 0);
+
+        ByteArrayOutputStream os = imageService.getVoteAsImage(threadId, maxSize, new ColorDTO(text, back, complete));
+        response.setHeader("Content-Length", String.valueOf(os.size()));
+        os.writeTo(response.getOutputStream());
+    }
+
 
     @RequestMapping(value = "/stub-page", method = RequestMethod.GET)
     public ModelAndView getStubPage(@RequestParam(required = false, defaultValue = "F8F8FF") String text,
@@ -58,14 +92,13 @@ public class MainController {
 
     @RequestMapping(value = "/vote-page", method = RequestMethod.GET)
     public ModelAndView getVote(@RequestParam String url,
-                                @RequestParam(required = false, defaultValue = "false") Boolean skipCheck,
                                 @RequestParam(required = false, defaultValue = "F8F8FF") String text,
                                 @RequestParam(required = false, defaultValue = "C7C7C7") String back,
                                 @RequestParam(required = false, defaultValue = "239723") String complete) throws IOException, PermissionException {
 
         url = URLDecoder.decode(url, "UTF-8");
 
-        if (!skipCheck && !url.startsWith(CrawlerService.URL)) {
+        if (!url.startsWith(CrawlerService.URL)) {
             throw new PermissionException();
         }
 
