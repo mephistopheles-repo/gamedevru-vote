@@ -114,6 +114,7 @@
             </br>
                 где <strong>ваш_вариант_ответа</strong> это ваш вариант ответа.
         </span>
+        </br>
         <a href="javascript:void(0);" onclick="pressBackButton();" style="position: relative;bottom: 0;left: 0;"> Назад</a>
     </div>
 
@@ -121,6 +122,7 @@
         <span>
             Пусто
         </span>
+        </br>
         <a href="javascript:void(0);" onclick="pressBackButton();" style="position: relative;bottom: 0;left: 0;"> Назад</a>
     </div>
 </div>
