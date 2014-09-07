@@ -18,13 +18,13 @@
         .vote-container {
             width: 100%;
             height: 20px;
-            background-color: rgb(213, 213, 213);
+            background-color: #<c:out value="${color.back}"/>;
             margin: 1px 1px 1px 1px;
         }
 
         .vote {
             height: 100%;
-            background-color: rgb(35, 151, 35);;
+            background-color: #<c:out value="${color.complete}"/>;
         }
 
         .main {
@@ -35,7 +35,7 @@
 
         .inner-text {
             margin-left: 5px;
-            color: ghostwhite;
+            color:  #<c:out value="${color.text}"/>;
             position: absolute;
         }
 

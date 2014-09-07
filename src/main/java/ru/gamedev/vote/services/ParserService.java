@@ -72,7 +72,7 @@ public class ParserService {
         return page;
     }
 
-    private String parseVote(String body) {
+    public String parseVote(String body) {
         int start = body.indexOf(VOTE_MARK);
         if (start == -1) {
             return null;

@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import ru.gamedev.vote.exeptions.PermissionException;
+import ru.gamedev.vote.models.ColorDTO;
 import ru.gamedev.vote.models.VoteChoice;
 import ru.gamedev.vote.models.VotingDTO;
 import ru.gamedev.vote.services.CrawlerService;
@@ -43,9 +44,24 @@ public class MainController {
         return new ModelAndView("indexPage");
     }
 
+    @RequestMapping(value = "/stub-page", method = RequestMethod.GET)
+    public ModelAndView getStubPage(@RequestParam(required = false, defaultValue = "F8F8FF") String text,
+                                    @RequestParam(required = false, defaultValue = "DFDFDF") String back,
+                                    @RequestParam(required = false, defaultValue = "239723") String complete) {
+
+        ModelAndView mav = new ModelAndView("votePage");
+        mav.addObject("votingLength", 0);
+        mav.addObject("color", new ColorDTO(text, back, complete));
+        mav.addObject("isStubPage", true);
+        return mav;
+    }
+
     @RequestMapping(value = "/vote-page", method = RequestMethod.GET)
     public ModelAndView getVote(@RequestParam String url,
-                                @RequestParam(required = false, defaultValue = "false") Boolean skipCheck) throws IOException, PermissionException {
+                                @RequestParam(required = false, defaultValue = "false") Boolean skipCheck,
+                                @RequestParam(required = false, defaultValue = "F8F8FF") String text,
+                                @RequestParam(required = false, defaultValue = "DFDFDF") String back,
+                                @RequestParam(required = false, defaultValue = "239723") String complete) throws IOException, PermissionException {
 
         url = URLDecoder.decode(url, "UTF-8");
 
@@ -97,7 +113,7 @@ public class MainController {
             mav.addObject("votingLength", 0);
         }
 
-
+        mav.addObject("color", new ColorDTO(text, back, complete));
         return mav;
     }
 

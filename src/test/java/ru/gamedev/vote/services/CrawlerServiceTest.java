@@ -12,12 +12,6 @@ import static org.junit.Assert.assertTrue;
 
 public class CrawlerServiceTest extends AbstractTest {
 
-    @Autowired
-    CrawlerService crawlerService;
-
-    @Autowired
-    ParserService parserService;
-
     @Test
     //test detect weather on mars, enable brain to use this
     @Ignore

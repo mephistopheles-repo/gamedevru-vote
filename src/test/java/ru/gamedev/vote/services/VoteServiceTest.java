@@ -10,9 +10,6 @@ import java.util.Date;
 
 public class VoteServiceTest extends AbstractTest {
 
-    @Autowired
-    VoteService voteService;
-
     @Test
     //manual test
     @Ignore
