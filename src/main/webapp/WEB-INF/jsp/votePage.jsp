@@ -39,6 +39,8 @@
             width: 99%;
             height: 105px;
             margin-right: 1px;
+            font-family: verdana, arial, sans-serif;
+            font-size: 14px;
         }
 
         .inner-text {

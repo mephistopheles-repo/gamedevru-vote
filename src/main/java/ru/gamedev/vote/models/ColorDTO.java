@@ -8,7 +8,7 @@ package ru.gamedev.vote.models;
  */
 public class ColorDTO {
     private String text = "F8F8FF";
-    private String back = "DFDFDF";
+    private String back = "C7C7C7";
     private String complete = "239723";
 
     public ColorDTO(String text, String back, String complete) {

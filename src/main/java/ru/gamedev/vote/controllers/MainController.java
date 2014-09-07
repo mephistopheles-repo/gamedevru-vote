@@ -46,7 +46,7 @@ public class MainController {
 
     @RequestMapping(value = "/stub-page", method = RequestMethod.GET)
     public ModelAndView getStubPage(@RequestParam(required = false, defaultValue = "F8F8FF") String text,
-                                    @RequestParam(required = false, defaultValue = "DFDFDF") String back,
+                                    @RequestParam(required = false, defaultValue = "C7C7C7") String back,
                                     @RequestParam(required = false, defaultValue = "239723") String complete) {
 
         ModelAndView mav = new ModelAndView("votePage");
@@ -60,7 +60,7 @@ public class MainController {
     public ModelAndView getVote(@RequestParam String url,
                                 @RequestParam(required = false, defaultValue = "false") Boolean skipCheck,
                                 @RequestParam(required = false, defaultValue = "F8F8FF") String text,
-                                @RequestParam(required = false, defaultValue = "DFDFDF") String back,
+                                @RequestParam(required = false, defaultValue = "C7C7C7") String back,
                                 @RequestParam(required = false, defaultValue = "239723") String complete) throws IOException, PermissionException {
 
         url = URLDecoder.decode(url, "UTF-8");
