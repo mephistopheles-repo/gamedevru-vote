@@ -14,7 +14,6 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.concurrent.*;
 
 /**
@@ -101,8 +100,9 @@ public class VoteService {
                         }
                         PageDTO pageDTO = parserService.parse(doc);
 
-                        VotingDTO votingDTO = collectResult(pageDTO);
-
+                        VotingDTO tempVotingDTO = collectResult(pageDTO);
+                        VotingDTO votingDTO = new VotingDTO();
+                        aggregateData(votingDTO, tempVotingDTO);
                         if (!pageDTO.getIsLastPage()) {
                             Long pageCounter = 2l;
                             while (true) {
@@ -114,7 +114,7 @@ public class VoteService {
 
                                 pageDTO = parserService.parse(doc);
 
-                                VotingDTO tempVotingDTO = collectResult(pageDTO);
+                                tempVotingDTO = collectResult(pageDTO);
                                 aggregateData(votingDTO, tempVotingDTO);
                                 pageCounter++;
                                 if (pageDTO.getIsLastPage() || pageCounter > 1000) {
@@ -159,10 +159,8 @@ public class VoteService {
                 map.put(vote.getVote(), choice);
             }
 
-            if (!choice.getVoters().contains(vote)) {
-                choice.getVoters().add(vote);
-                choice.addCount(1l);
-            }
+            choice.getVoters().add(vote);
+            choice.addCount(1l);
         }
 
         return dto;
@@ -171,22 +169,27 @@ public class VoteService {
     private VotingDTO aggregateData(VotingDTO dest, VotingDTO source) {
         Map<String, VoteChoice> destMap = dest.getChoices();
         Map<String, VoteChoice> sourceMap = source.getChoices();
-        for (String sourceChoice : sourceMap.keySet()) {
+
+        for (String sourceChoiceKey : sourceMap.keySet()) {
+            VoteChoice sourceChose = sourceMap.get(sourceChoiceKey);
+
             VoteChoice destChoice;
-            if (destMap.containsKey(sourceChoice)) {
-                destChoice = destMap.get(sourceChoice);
-            } else {
-                destChoice = new VoteChoice();
-                destChoice.setChoice(sourceChoice);
-                destMap.put(destChoice.getChoice(), destChoice);
-            }
-            Set<VoteDTO> destVoters = destChoice.getVoters();
-            Set<VoteDTO> sourceVoters = sourceMap.get(sourceChoice).getVoters();
-            for (VoteDTO voteDTO : sourceVoters) {
-                if (!destVoters.contains(voteDTO)) {
-                    destVoters.add(voteDTO);
-                    destChoice.addCount(1l);
+            if (destMap.containsKey(sourceChoiceKey)) {
+                destChoice = destMap.get(sourceChoiceKey);
+
+                List<VoteDTO> destVoters = destChoice.getVoters();
+                List<VoteDTO> sourceVoters = sourceMap.get(sourceChoiceKey).getVoters();
+
+                for (VoteDTO voteDTO : sourceVoters) {
+                    if (!destVoters.contains(voteDTO)) {
+                        destVoters.add(voteDTO);
+                        destChoice.addCount(1l);
+                    }
                 }
+            } else {
+                destChoice = sourceChose;
+                destChoice.setChoice(sourceChoiceKey);
+                destMap.put(sourceChoiceKey, destChoice);
             }
         }
 

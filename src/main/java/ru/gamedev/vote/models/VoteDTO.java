@@ -48,4 +48,10 @@ public class VoteDTO {
     public int hashCode() {
         return authorId.hashCode();
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        return this.hashCode() == obj.hashCode();
+    }
 }
+

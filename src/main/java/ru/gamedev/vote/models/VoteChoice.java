@@ -1,6 +1,8 @@
 package ru.gamedev.vote.models;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -12,7 +14,7 @@ import java.util.Set;
 public class VoteChoice {
     private String choice;
     private Long count = 0l;
-    private Set<VoteDTO> voters = new HashSet<VoteDTO>();
+    private List<VoteDTO> voters = new ArrayList<VoteDTO>();
 
     public String getChoice() {
         return choice;
@@ -30,11 +32,11 @@ public class VoteChoice {
         this.count = count;
     }
 
-    public Set<VoteDTO> getVoters() {
+    public List<VoteDTO> getVoters() {
         return voters;
     }
 
-    public void setVoters(Set<VoteDTO> voters) {
+    public void setVoters(List<VoteDTO> voters) {
         this.voters = voters;
     }
 
