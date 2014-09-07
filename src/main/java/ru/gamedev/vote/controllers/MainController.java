@@ -62,6 +62,10 @@ public class MainController {
         } catch (Exception ignored) {
         }
 
+        if (maxSize < 1) {
+            maxSize = 5;
+        }
+
         url = URLDecoder.decode(url, "UTF-8");
         Long threadId = parserService.parseId(url);
 
