@@ -49,7 +49,7 @@ public class MainController {
     @RequestMapping(value = "/image/", method = RequestMethod.GET)
     @ResponseBody
     public void getVoteImage(@RequestHeader("Referer") String url,
-                             @RequestParam(defaultValue = "5") String maxSizeStr,
+                             @RequestParam(value = "max-size", defaultValue = "5") String maxSizeStr,
                              @RequestParam(required = false, defaultValue = "F8F8FF") String text,
                              @RequestParam(required = false, defaultValue = "C7C7C7") String back,
                              @RequestParam(required = false, defaultValue = "239723") String complete,
