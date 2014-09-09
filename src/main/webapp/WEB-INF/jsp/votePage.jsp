@@ -103,8 +103,8 @@
         <c:if test="${votingLength == 0}">
             <%@include file="includes/loading-overlay.jsp" %>
         </c:if>
-        <a href="javascript:void(0);" onclick="pressHowToVoteButton();" target="_blank">Как голосовать?</a>
-        <a href="javascript:void(0);" onclick="pressHowToMakeButton();" class="pull-right mrg-r-5" target="_blank">Как создать?</a>
+        <a href="javascript:void(0);" onclick="pressHowToVoteButton();">Как голосовать?</a>
+        <a href="javascript:void(0);" onclick="pressHowToMakeButton();" class="pull-right mrg-r-5">Как создать?</a>
     </div>
     <div id="js-how-to-vote" style="display: none">
         <span>
