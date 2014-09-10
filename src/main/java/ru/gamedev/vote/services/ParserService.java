@@ -89,8 +89,8 @@ public class ParserService {
             returnString = body.substring(offset, end).trim();
         }
 
-        if (returnString.length() > 48) {
-            returnString = returnString.substring(0, 48);
+        if (returnString.length() > 32) {
+            returnString = returnString.substring(0, 31);
         }
 
         if (returnString.length() < 1){
