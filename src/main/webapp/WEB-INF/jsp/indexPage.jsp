@@ -20,6 +20,7 @@
         } else {
             params = params + "&";
         }
+        parentHref = parentHref.replace(/\#.*$/, "");
 
         window.location.href = "/vote-page" + params + "url=" + encodeURIComponent(parentHref);
     })
