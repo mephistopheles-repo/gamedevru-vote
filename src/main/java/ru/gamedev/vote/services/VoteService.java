@@ -24,8 +24,8 @@ import java.util.concurrent.*;
  */
 @Service
 public class VoteService {
-    private static final long UPDATE_INTERVAL = 1000 * 60 * 2;
-    //private static final long UPDATE_INTERVAL = 0;
+    //private static final long UPDATE_INTERVAL = 1000 * 60 * 2;
+    private static final long UPDATE_INTERVAL = 0;
     private static final long CLEAR_INTERVAL = 1000 * 60 * 15;
 
     @Autowired

@@ -52,4 +52,16 @@ public class ColorDTO {
         }
         this.complete = complete;
     }
+
+    public String getCssBack() {
+        return "#" + back;
+    }
+
+    public String getCssComplete() {
+        return "#" + complete;
+    }
+
+    public String getCssText() {
+        return "#" + text;
+    }
 }
