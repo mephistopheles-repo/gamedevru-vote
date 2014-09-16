@@ -24,6 +24,7 @@
             display: block;
             float: left;
             color: #2E2E5C;
+            cursor: default;
         }
 
         .blue-pants.purple-pants {
@@ -149,10 +150,12 @@
                     </div>
                     <div class="voters-container" onclick="pressVotersContainer(this);">
                         <c:forEach items="${choise.voters}" var="voter">
+                            <c:set var="purplePants" value=""/>
                             <c:if test="${voter.authorLevel == 'DONATOR' || voter.authorLevel == 'MODERATOR'}">
                                 <c:set var="purplePants" value="purple-pants"/>
                             </c:if>
-                            <span class="blue-pants ${purplePants}"><strong>${voter.authorName}</strong></span>
+                            <span class="blue-pants ${purplePants}"
+                                  title="${voter.authorLevel.textName}"><strong>${voter.authorName}</strong></span>
                         </c:forEach>
                     </div>
                 </div>

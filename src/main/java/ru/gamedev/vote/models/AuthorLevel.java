@@ -43,7 +43,7 @@ public enum AuthorLevel {
         throw new AuthorLevelUnknownException();
     }
 
-    private String getTextName() {
+    public String getTextName() {
         return textName;
     }
 }
