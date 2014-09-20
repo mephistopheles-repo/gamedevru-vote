@@ -32,7 +32,7 @@
         }
 
         .vote-container {
-            width: 100%;
+            width: 99%;
             height: 20px;
             background-color: <c:out value="${color.cssBack}"/>;
             margin: 1px 1px 1px 1px;
@@ -40,20 +40,20 @@
 
         .voters-container {
             width: 100%;
-            height: 100%;
+            height: 103px;
             display: none;
-        }
-
-        .show-details .voters-container {
-            width: 100%;
-            height: 100%;
-            display: block;
             background-color: white;
         }
 
+        .show-details .voters-container {
+            display: block;
+        }
+
         .show-details {
-            width: 100%;
-            height: 100%;
+            width: 99%;
+            height: 123px;
+            overflow: auto;
+            position: relative;
         }
 
         .vote {
@@ -67,6 +67,9 @@
             margin-right: 1px;
             font-family: verdana, arial, sans-serif;
             font-size: 14px;
+            position: absolute;
+            top: 0;
+            left: 0;
         }
 
         .inner-text {
@@ -82,10 +85,22 @@
         .pull-right {
             float: right;
         }
+
+        .vote-data {
+            height: 125px;
+            overflow: auto;
+            width: 99%;
+            position: relative;
+            left: 0;
+            top: 0;
+        }
     </style>
     <script>
         function pressBackButton() {
             var el = document.getElementById("js-vote-data");
+            el.style.display = "block";
+
+            el = document.getElementById("js-main-menu");
             el.style.display = "block";
 
             el = document.getElementById("js-how-to-vote");
@@ -99,12 +114,18 @@
             var el = document.getElementById("js-vote-data");
             el.style.display = "none";
 
+            el = document.getElementById("js-main-menu");
+            el.style.display = "none";
+
             el = document.getElementById("js-how-to-vote");
             el.style.display = "block";
         }
 
         function pressHowToMakeButton() {
             var el = document.getElementById("js-vote-data");
+            el.style.display = "none";
+
+            el = document.getElementById("js-main-menu");
             el.style.display = "none";
 
             el = document.getElementById("js-how-to-make");
@@ -139,8 +160,8 @@
 </head>
 <body style="width: 100%;height: 100%">
 <div class="main">
-    <div id="js-vote-data">
-        <c:if test="${votingLength > 0}">
+    <div id="js-vote-data" class="vote-data">
+    <c:if test="${votingLength > 0}">
             <c:forEach items="${voting}" var="choise">
                 <div class="vote-container js-vote-bar" onclick="pressVoteBar(this);">
                     <span class="pull-right mrg-r-5">${choise.count}</span>
@@ -165,10 +186,11 @@
         <c:if test="${votingLength == 0}">
             <%@include file="includes/loading-overlay.jsp" %>
         </c:if>
-        <a href="javascript:void(0);" onclick="pressHowToVoteButton();">Как голосовать?</a>
+    </div>
+    <div id="js-main-menu">
+    <a href="javascript:void(0);" onclick="pressHowToVoteButton();">Как голосовать?</a>
         <a href="javascript:void(0);" onclick="pressHowToMakeButton();" class="pull-right mrg-r-5">Как создать?</a>
     </div>
-
     <%@include file="includes/help.jsp" %>
 </div>
 

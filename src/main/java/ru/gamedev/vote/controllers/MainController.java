@@ -96,9 +96,20 @@ public class MainController {
 
     @RequestMapping(value = "/vote-page", method = RequestMethod.GET)
     public ModelAndView getVote(@RequestParam String url,
+                                @RequestParam(value = "max-size", required = false, defaultValue = "20") String maxSizeStr,
                                 @RequestParam(required = false, defaultValue = "F8F8FF") String text,
                                 @RequestParam(required = false, defaultValue = "C7C7C7") String back,
                                 @RequestParam(required = false, defaultValue = "239723") String complete) throws IOException, PermissionException {
+        int maxSize = 20;
+        try {
+            maxSize = Integer.parseInt(maxSizeStr);
+        } catch (Exception ignored) {
+        }
+
+        if (maxSize < 1) {
+            maxSize = 20;
+        }
+
 
         url = URLDecoder.decode(url, "UTF-8");
 
@@ -127,8 +138,8 @@ public class MainController {
                 }
             });
 
-            if (list.size() > 5) {
-                list = list.subList(0, 5);
+            if (list.size() > maxSize) {
+                list = list.subList(0, maxSize - 1);
             }
 
             Long viewCount = 0l;

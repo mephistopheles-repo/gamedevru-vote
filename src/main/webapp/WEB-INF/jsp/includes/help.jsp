@@ -21,7 +21,7 @@
 
 <div id="js-how-to-make" style="display: none">
         <span>
-            Пусто
+            <a href="http://www.gamedev.ru/flame/forum/?id=192953" target="_blank">Полная инструкция тут</a>
         </span>
     </br>
     <a href="javascript:void(0);" onclick="pressBackButton();" style="position: relative;bottom: 0;left: 0;">
