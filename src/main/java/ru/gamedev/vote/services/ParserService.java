@@ -31,6 +31,7 @@ public class ParserService {
     private static final String PAGINATION_SELECTOR = "#main_body p a";
     private static final String NEXT_PAGE_BUTTON_TEXT = "Следующая";
     private static final String QUOTE_SELECTOR = ".q";
+    private static final String QUOTE_SELECTOR2 = ".quote";
     private static final String POTENCIAL_VOTE_ELEMENT = "p";
     private static final String VOTE_MARK = "@vote";
 
@@ -55,6 +56,7 @@ public class ParserService {
 
             Element body = element.select(MESSAGE_BODY_SELECTOR).first();
             body.select(QUOTE_SELECTOR).remove();
+            body.select(QUOTE_SELECTOR2).remove();
             Elements paragraphsElements = body.select(POTENCIAL_VOTE_ELEMENT);
             if (paragraphsElements.size() == 0) {
                 dto.setVote(parseVote(body.text()));
