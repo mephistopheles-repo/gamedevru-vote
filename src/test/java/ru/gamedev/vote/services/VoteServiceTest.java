@@ -2,7 +2,6 @@ package ru.gamedev.vote.services;
 
 import org.junit.Ignore;
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import ru.gamedev.vote.models.VotingDTO;
 import ru.gamedev.vote.test.AbstractTest;
 
@@ -20,7 +19,7 @@ public class VoteServiceTest extends AbstractTest {
         int b = 0;
 
         long t = new Date().getTime() + 60 * 1000;
-        while (t > new Date().getTime()){
+        while (t > new Date().getTime()) {
             Thread.sleep(0);
         }
 

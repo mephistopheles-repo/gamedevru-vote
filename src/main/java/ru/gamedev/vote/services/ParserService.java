@@ -3,6 +3,7 @@ package ru.gamedev.vote.services;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.gamedev.vote.exeptions.AuthorLevelUnknownException;
 import ru.gamedev.vote.models.AuthorLevel;
@@ -32,6 +33,9 @@ public class ParserService {
     private static final String QUOTE_SELECTOR = ".q";
     private static final String POTENCIAL_VOTE_ELEMENT = "p";
     private static final String VOTE_MARK = "@vote";
+
+    @Autowired
+    protected ConfigParserService configParserService;
 
     public PageDTO parse(Document doc) {
         Elements messagesOnPage = doc.select(MESSAGE_SELECTOR);
@@ -63,6 +67,14 @@ public class ParserService {
                     }
                 }
             }
+
+            if (element.id().equals("m0")) {
+                try {
+                    page.setConfigDTO(configParserService.parse(body.text()));
+                } catch (Exception ignored) {
+                }
+            }
+
             messageDTOList.add(dto);
         }
 
@@ -93,7 +105,7 @@ public class ParserService {
             returnString = returnString.substring(0, 31);
         }
 
-        if (returnString.length() < 1){
+        if (returnString.length() < 1) {
             return null;
         }
 

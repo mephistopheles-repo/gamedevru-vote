@@ -13,6 +13,16 @@ public class PageDTO {
     private Boolean isFirstPage;
     private Boolean isLastPage;
 
+    private ConfigDTO configDTO = new ConfigDTO();
+
+    public ConfigDTO getConfigDTO() {
+        return configDTO;
+    }
+
+    public void setConfigDTO(ConfigDTO configDTO) {
+        this.configDTO = configDTO;
+    }
+
     public Boolean getIsLastPage() {
         return isLastPage;
     }

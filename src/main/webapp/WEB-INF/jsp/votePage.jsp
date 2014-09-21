@@ -76,6 +76,7 @@
             margin-left: 5px;
             color: <c:out value="${color.cssText}"/>;
             position: absolute;
+            cursor: default;
         }
 
         .mrg-r-5 {
@@ -161,10 +162,10 @@
 <body style="width: 100%;height: 100%">
 <div class="main">
     <div id="js-vote-data" class="vote-data">
-    <c:if test="${votingLength > 0}">
+        <c:if test="${votingLength > 0}">
             <c:forEach items="${voting}" var="choise">
                 <div class="vote-container js-vote-bar" onclick="pressVoteBar(this);">
-                    <span class="pull-right mrg-r-5">${choise.count}</span>
+                    <span class="pull-right mrg-r-5" style="cursor: default;">${choise.count}</span>
 
                     <div class="vote" style="width: ${choise.count/(fullCount*0.01)}%">
                         <span class="inner-text"><c:out value="${choise.choice}"/></span>
@@ -188,7 +189,7 @@
         </c:if>
     </div>
     <div id="js-main-menu">
-    <a href="javascript:void(0);" onclick="pressHowToVoteButton();">Как голосовать?</a>
+        <a href="javascript:void(0);" onclick="pressHowToVoteButton();">Как голосовать?</a>
         <a href="javascript:void(0);" onclick="pressHowToMakeButton();" class="pull-right mrg-r-5">Как создать?</a>
     </div>
     <%@include file="includes/help.jsp" %>

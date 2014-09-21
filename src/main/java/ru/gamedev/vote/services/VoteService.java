@@ -4,10 +4,7 @@ import org.jsoup.nodes.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-import ru.gamedev.vote.models.PageDTO;
-import ru.gamedev.vote.models.VoteChoice;
-import ru.gamedev.vote.models.VoteDTO;
-import ru.gamedev.vote.models.VotingDTO;
+import ru.gamedev.vote.models.*;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
@@ -99,7 +96,7 @@ public class VoteService {
                             return;
                         }
                         PageDTO pageDTO = parserService.parse(doc);
-
+                        ConfigDTO config = pageDTO.getConfigDTO();
                         VotingDTO tempVotingDTO = collectResult(pageDTO);
                         VotingDTO votingDTO = new VotingDTO();
                         aggregateData(votingDTO, tempVotingDTO);
@@ -113,7 +110,7 @@ public class VoteService {
                                 }
 
                                 pageDTO = parserService.parse(doc);
-
+                                pageDTO.setConfigDTO(config);
                                 tempVotingDTO = collectResult(pageDTO);
                                 aggregateData(votingDTO, tempVotingDTO);
                                 pageCounter++;
@@ -142,15 +139,20 @@ public class VoteService {
         return dto;
     }
 
-
     private VotingDTO collectResult(PageDTO page) {
         VotingDTO dto = new VotingDTO();
         List<VoteDTO> votes = page.getMessageDTOList();
         Map<String, VoteChoice> map = dto.getChoices();
+        MessageFilter messageFilter = page.getConfigDTO().getMessageFilter();
         for (VoteDTO vote : votes) {
             if (vote.getVote() == null) {
                 continue;
             }
+
+            if (!messageFilter.filter(vote)) {
+                continue;
+            }
+
             VoteChoice choice = new VoteChoice();
             if (map.containsKey(vote.getVote())) {
                 choice = map.get(vote.getVote());
