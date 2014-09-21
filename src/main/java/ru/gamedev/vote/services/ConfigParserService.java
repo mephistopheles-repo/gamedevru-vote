@@ -24,6 +24,7 @@ public class ConfigParserService {
 
     public ConfigDTO parse(String text) {
         ConfigDTO dto = new ConfigDTO();
+        dto.setMessageFilter(new FilterCollection());
         int configIndx = text.indexOf(CONFIG_MARKER);
         if (configIndx != -1) {
             int configStartIndx = text.indexOf("{", configIndx);
